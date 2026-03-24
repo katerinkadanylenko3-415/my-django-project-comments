@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'blog',
     'crispy_forms',
     'crispy_bootstrap5',
+    'gallery',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
@@ -133,8 +134,8 @@ LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = 'home'
 LOGOUT_URL = "logout"
 
+MEDIA_ROOT = BASE_DIR/'uploads'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 
 
