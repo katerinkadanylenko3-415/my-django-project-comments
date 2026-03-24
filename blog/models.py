@@ -1,3 +1,4 @@
+from django.contrib.auth import forms
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
@@ -45,12 +46,18 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     image = models.URLField(default="https://soliloquywp.com/wp-content/uploads/2016/08/How-to-Set-a-Default-Featured-Image-in-WordPress.png")
 
-    slug = models.SlugField(max_length=220,default="test", db_index=True)
+    slug = models.SlugField(max_length=220,unique=True, db_index=True, blank=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name="text", verbose_name="Tegs")
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)
+            slug = base_slug
+            counter = 1
+            while Post.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)
 
 
@@ -75,3 +82,36 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"{self.author} до {self.post.title}"
+
+
+# профіль для користтувача :
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    phone = models.CharField(max_length=15, blank=True, verbose_name="Телефон")
+    bio = models.TextField(max_length=500, blank=True, verbose_name="Про себе")
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+
+    def __str__(self):
+        return f"Профіль {self.user.username}"
+
+
+
+
+
+
+
+
+
+
+
+# class Subscription(models.Model):
+#     email = models.EmailField(unique=True, verbose_name="Електронна пошта")
+#     date_subscribed = models.DateTimeField(auto_now_add=True)
+#
+#     def __str__(self):
+#         return self.email
+#
+#     class Meta:
+#         verbose_name = "Підписка"
+#         verbose_name_plural = "Підписки"
