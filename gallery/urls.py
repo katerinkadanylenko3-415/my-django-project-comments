@@ -1,4 +1,4 @@
-from website.urls import urlpatterns
+
 from . import views
 from django.urls import path
 

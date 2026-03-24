@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block 'content' %}
+
+<h1>Gallery</h1>
+
+<p><a class="btn btn-primary" href="{% url 'upload' %}">Download</a></p>
+
+{% for image in images %}
+
+<h2> {{ image.title }} </h2>
+<img src="{{ image.image.url }}">
+
+{% empty %}
+<p>No image yet!</p>
+{% endfor %}
+
+{% endblock %}
