@@ -1,6 +1,7 @@
-{% extends 'base.html' %}
+{% extends "layout/main_layout.html" %}
 
 {% block 'content' %}
+{% load thumbnail %}
 
 <h1>Gallery</h1>
 
@@ -8,8 +9,16 @@
 
 {% for image in images %}
 
-<h2> {{ image.title }} </h2>
-<img src="{{ image.image.url }}">
+     <h2> {{ image.title }} </h2>
+
+
+     {% thumbnail image.image '200x200' crop='center' as m %}
+     <a target="_blank" href="{{image.image.url}}">
+         <img src="{{ m.url }}">
+     </a>
+
+
+
 
 {% empty %}
 <p>No image yet!</p>
