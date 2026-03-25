@@ -33,11 +33,39 @@ def contacts(request):
     return render(request, "blog/contact.html", context)
 
 
+
+
+
+
+from .forms import PostForm, LoginForm, CommentForm
+
+
 def post_detail(request, slug=None):
     post = get_object_or_404(Post, slug=slug)
-    context = {'post': post}
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.save()
+            return redirect('post_detail', slug=post.slug)
+    else:
+        form = CommentForm()
+
+    context = {
+        'post': post,
+        'form': form,
+    }
     context.update(get_categories())
     return render(request, "blog/post.html", context)
+
+
+# def post_detail(request, slug=None):
+#     post = get_object_or_404(Post, slug=slug)
+#     context = {'post': post}
+#     context.update(get_categories())
+#     return render(request, "blog/post.html", context)
 
 
 def category(request, slug=None):
@@ -150,7 +178,8 @@ from .forms import ProfileEditForm
 
 @login_required
 def profile_view(request):
-    profile = request.user.profile
+    from .models import Profile
+    profile, created = Profile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
         form = ProfileEditForm(request.POST, request.FILES, instance=profile)
@@ -169,4 +198,20 @@ def profile_view(request):
     return render(request, "blog/profile.html", context)
 
 
+from django.shortcuts import redirect
+from django.contrib import messages
+from .models import Subscription
+
+
+def subscribe(request):
+    if request.method == "POST":
+        email = request.POST.get('email')
+        if not Subscription.objects.filter(email=email).exists():
+            Subscription.objects.create(email=email)
+            messages.success(request, "Дякуємо за підписку!")
+        else:
+            messages.info(request, "Ви вже підписані на наші новини.")
+
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
+    return redirect('home')
 

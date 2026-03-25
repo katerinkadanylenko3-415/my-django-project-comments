@@ -28,6 +28,40 @@
             </div>
                 <!-- /.input-group -->
 
+            {% if messages %}
+               {% for message in messages %}
+                  <div class="alert alert-success alert-dismissible" role="alert">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      {{ message }}
+                  </div>
+               {% endfor %}
+            {% endif %}
+
+
+
+            <div class="well">
+                <h4>Підписка на новини</h4>
+                <p>Залиште свій Email, щоб першими отримувати свіжі новини!</p>
+
+                <form action="{% url 'subscribe' %}" method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="email" name="email" class="form-control" placeholder="Ваш Email..." required>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+
+
+
+
 
             <!-- Blog Categories Well -->
             <div class="well">

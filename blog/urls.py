@@ -16,5 +16,6 @@ urlpatterns = [
     path('post/<slug:slug>/delete/', views.delete_post, name="delete_post"),
     path('register/', views.register, name="register"),
     path('profile/', views.profile_view, name="profile"),
+    path('subscribe/', views.subscribe, name="subscribe"),
 
 ]

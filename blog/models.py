@@ -1,4 +1,4 @@
-from django.contrib.auth import forms
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.text import slugify
@@ -69,7 +69,7 @@ class Post(models.Model):
         verbose_name_plural = "Новини"
 
 
-
+# коментрі
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=50, verbose_name="Автор")
@@ -79,6 +79,7 @@ class Comment(models.Model):
     class Meta:
         verbose_name = "Коментар"
         verbose_name_plural = "Коментарі"
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.author} до {self.post.title}"
@@ -98,20 +99,17 @@ class Profile(models.Model):
 
 
 
+# ПІДПИСКА
+class Subscription(models.Model):
+    email = models.EmailField(unique=True, verbose_name="Електронна пошта")
+    date_subscribed = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Підписка"
+        verbose_name_plural = "Підписки"
+
+    def __str__(self):
+        return self.email
 
 
 
-
-
-
-
-# class Subscription(models.Model):
-#     email = models.EmailField(unique=True, verbose_name="Електронна пошта")
-#     date_subscribed = models.DateTimeField(auto_now_add=True)
-#
-#     def __str__(self):
-#         return self.email
-#
-#     class Meta:
-#         verbose_name = "Підписка"
-#         verbose_name_plural = "Підписки"

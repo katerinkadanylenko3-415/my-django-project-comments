@@ -12,6 +12,32 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
+# Коментаір користувача :
+
+from .models import Comment # Додай Comment до імпорту
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('author', 'text')
+        widgets = {
+            'author': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваше ім’я'}),
+            'text': forms.Textarea(attrs={'class': 'form-control', 'rows': '3', 'placeholder': 'Ваш коментар...'}),
+        }
+
+
+from .models import Subscription
+
+class SubscriptionForm(forms.ModelForm):
+    class Meta:
+        model = Subscription
+        fields = ('email',)
+        widgets = {
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введіть ваш Email'
+            }),
+        }
 
 
 
@@ -21,28 +47,6 @@ class LoginForm(forms.Form):
 
 
 
-
-
-
-
-# from .models import Comment, Subscription
-#
-# class CommentForm(forms.ModelForm):
-#     class Meta:
-#         model = Comment
-#         fields = ('author', 'text')
-#         widgets = {
-#             'author': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваше ім\'я'}),
-#             'text': forms.Textarea(attrs={'class': 'form-control', 'rows': '3', 'placeholder': 'Ваш коментар'}),
-#         }
-#
-# class SubscriptionForm(forms.ModelForm):
-#     class Meta:
-#         model = Subscription
-#         fields = ('email',)
-#         widgets = {
-#             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email...'}),
-#         }
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
