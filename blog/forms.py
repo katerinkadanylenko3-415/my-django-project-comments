@@ -14,7 +14,7 @@ class LoginForm(forms.Form):
 
 # Коментаір користувача :
 
-from .models import Comment # Додай Comment до імпорту
+from .models import Comment
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -75,3 +75,5 @@ class ProfileEditForm(forms.ModelForm):
             'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваш телефон'}),
             'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'placeholder': 'Про себе'}),
         }
+
+

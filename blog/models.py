@@ -113,3 +113,15 @@ class Subscription(models.Model):
 
 
 
+# Галерея /
+
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='images', verbose_name="Новина")
+    image = models.ImageField(upload_to='post_gallery/', verbose_name="Фото")
+
+    class Meta:
+        verbose_name = "Фото галереї"
+        verbose_name_plural = "Галерея фотографій"
+
+
+
