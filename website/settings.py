@@ -74,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'shop.context_processors.categories_processor',
             ],
         },
     },
@@ -139,6 +140,8 @@ LOGOUT_URL = "logout"
 
 MEDIA_ROOT = BASE_DIR/'uploads'
 MEDIA_URL = '/media/'
+
+CART_SESSION_ID = 'cart'
 
 
 

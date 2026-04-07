@@ -18,4 +18,5 @@ urlpatterns = [
     path('profile/', views.profile_view, name="profile"),
     path('subscribe/', views.subscribe, name="subscribe"),
 
+
 ]
