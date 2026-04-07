@@ -3,6 +3,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .cart import Cart
 from .models import Product, Category
 
+from django.contrib import messages
+
 
 def product_list(request):
     products = Product.objects.all()
@@ -58,3 +60,35 @@ def wishlist(request):
         'products': products,
         'wishlist_mode': True
     })
+
+
+
+
+def cart_add(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.add(product=product, quantity=1)
+    messages.success(request, f"Товар {product.title} додано в кошик!")
+    return redirect('cart_detail')
+
+def cart_remove(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.remove(product)
+    messages.warning(request, "Товар видалено з кошика")
+    return redirect('cart_detail')
+
+def cart_decrement(request, product_id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=product_id)
+    cart.decrement(product)
+    return redirect('cart_detail')
+
+def cart_clear(request):
+    cart = Cart(request)
+    cart.clear()
+    messages.info(request, "Кошик очищено")
+    return redirect('cart_detail')
+
+
+
